@@ -20,6 +20,7 @@ export const validateToken = async (
         next();
       });
     }
+    return res.status(401).send("Unauthorized");
   } catch (error) {
     console.error(error);
   }
