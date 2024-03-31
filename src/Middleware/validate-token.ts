@@ -9,19 +9,20 @@ export const validateToken = async (
   next: NextFunction
 ) => {
   const {
-    headers: { authentication },
+    headers: { authorization },
   } = req;
   try {
-    if (authentication) {
-      jwt.verify(authentication as string, jwtSpecialString, (err) => {
+    if (authorization) {
+      jwt.verify(authorization as string, jwtSpecialString, (err) => {
         if (err) {
           return res.status(401).send("Invalid token");
         }
         next();
       });
+    } else {
+      return res.status(401).send("Unauthorized");
     }
-    return res.status(401).send("Unauthorized");
   } catch (error) {
-    console.error(error);
+    return res.status(400).send(error);
   }
 };
