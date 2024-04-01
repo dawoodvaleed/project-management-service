@@ -21,7 +21,7 @@ export const signup = async (req: Request, res: Response) => {
 
     if (user) {
       const token = jwt.sign({ id: user.id }, jwtSpecialString, {
-        expiresIn: 1 * 24 * 60 * 60 * 1000,
+        expiresIn: "1h",
       });
 
       return res.status(200).send({ ...user, token });
@@ -50,7 +50,7 @@ export const login = async (req: Request, res: Response) => {
 
       if (isSame) {
         const token = jwt.sign({ id: user.id }, jwtSpecialString, {
-          expiresIn: 1 * 24 * 60 * 60 * 1000,
+          expiresIn: "1h",
         });
 
         return res.status(200).send({ ...user, token });
