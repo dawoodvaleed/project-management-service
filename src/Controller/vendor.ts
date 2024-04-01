@@ -12,7 +12,7 @@ export const getVendors = async (req: Request, res: Response) => {
       .createQueryBuilder()
       .offset(Number(offset))
       .limit(Number(limit))
-      .getMany();
+      .getManyAndCount();
 
     return res.status(200).send(vendors);
   } catch (error) {
