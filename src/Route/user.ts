@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { signup, login } from "../Controller";
-import { checkExistingUser } from "../Middleware";
+import { signup, login, getUsers } from "../Controller";
+import { checkExistingUser, validateToken } from "../Middleware";
 
 export const userRouter = Router();
 
-userRouter.post("/signup", checkExistingUser, signup);
-userRouter.post("/login", login);
+userRouter.post("/auth/signup", checkExistingUser, signup);
+userRouter.post("/auth/login", login);
+userRouter.get("/user", validateToken, getUsers);

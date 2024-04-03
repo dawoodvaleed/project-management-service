@@ -3,7 +3,7 @@ import "reflect-metadata";
 import cors from "cors";
 import express from "express";
 import { AppDataSource } from "./data-source";
-import { projectRouter, userRouter, vendorRouter } from "./Route";
+import { projectRouter, userRouter, vendorRouter, roleRouter } from "./Route";
 
 if (!process.env.PORT) {
   console.error(`No port value`);
@@ -21,9 +21,10 @@ AppDataSource.initialize().then(() => {
     return res.json("Established connection!");
   });
 
-  app.use("/auth", userRouter);
+  app.use("/", userRouter);
   app.use("/vendor", vendorRouter);
   app.use("/project", projectRouter);
+  app.use("/role", roleRouter);
 
   return app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

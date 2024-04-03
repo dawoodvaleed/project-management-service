@@ -4,24 +4,30 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { IsDate } from "class-validator";
-import { Role } from "./role";
+import { User } from "./user";
 
 @Entity()
-export class User {
+export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  email: string;
+  name: string;
 
-  @Column({ select: false })
-  password: string;
+  @Column()
+  description: string;
 
-  @ManyToOne(() => Role, (role) => role.users)
-  role: Role;
+  @Column()
+  status: boolean;
+
+  @Column()
+  permissions: string;
+
+  @OneToMany(() => User, (user) => user.role)
+  users: User[];
 
   @CreateDateColumn({ name: "created_at" })
   @IsDate()

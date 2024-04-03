@@ -8,13 +8,13 @@ export const getProjects = async (req: Request, res: Response) => {
   try {
     const { offset = 0, limit = 10 } = req.query;
 
-    const vendors = await projectRepository
+    const projects = await projectRepository
       .createQueryBuilder()
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
 
-    return res.status(200).send(vendors);
+    return res.status(200).send(projects);
   } catch (error) {
     console.error(error);
   }

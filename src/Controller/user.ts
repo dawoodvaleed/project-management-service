@@ -33,8 +33,6 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-//login authentication
-
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -43,6 +41,7 @@ export const login = async (req: Request, res: Response) => {
       where: {
         email: email,
       },
+      select: ["email", "password"],
     });
 
     if (user) {
@@ -60,6 +59,23 @@ export const login = async (req: Request, res: Response) => {
     } else {
       return res.status(400).send("Authentication failed");
     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const { offset = 0, limit = 10 } = req.query;
+
+    const roles = await userRepository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.role", "role")
+      .offset(Number(offset))
+      .limit(Number(limit))
+      .getManyAndCount();
+
+    return res.status(200).send(roles);
   } catch (error) {
     console.error(error);
   }
