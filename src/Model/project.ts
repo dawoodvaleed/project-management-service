@@ -79,11 +79,7 @@ export class Project {
   @OneToMany(() => Measurement, (measurement) => measurement.project)
   measurements: Measurement[];
 
-  @Column({ name: "customer_id" })
-  customerId: number;
-
   @ManyToOne(() => Customer, (customer) => customer.projects)
-  @JoinColumn({ name: "customer_id" })
   customer: Customer;
 
   @CreateDateColumn({ name: "created_at" })

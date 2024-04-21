@@ -67,7 +67,7 @@ export const addProject = async (req: Request, res: Response) => {
       isVerified,
       orderDate,
       completionDate,
-      customerId,
+      customer: { id: customerId },
     };
 
     const project = await projectRepository.save(data);
