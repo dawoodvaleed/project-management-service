@@ -37,12 +37,13 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    const user = await userRepository.findOne({
-      where: {
-        email: email,
-      },
-      select: ["email", "password"],
-    });
+    const user = await userRepository
+      .createQueryBuilder("user")
+      .leftJoinAndSelect("user.role", "role")
+      .where("user.email = :email")
+      .select(["user.email", "user.password", "role"])
+      .setParameters({ email })
+      .getOne();
 
     if (user) {
       const isSame = await bcrypt.compare(password, user.password);
