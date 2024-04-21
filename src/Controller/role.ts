@@ -20,13 +20,13 @@ export const getRoles = async (req: Request, res: Response) => {
   }
 };
 
-export const addRoles = async (req: Request, res: Response) => {
+export const addRole = async (req: Request, res: Response) => {
   try {
     const { name, description, status, permissions } = req.body;
     const data = { name, description, status, permissions };
 
-    const roles = await roleRepository.save(data);
-    return res.status(200).send(roles);
+    const role = await roleRepository.save(data);
+    return res.status(200).send(role);
   } catch (error) {
     console.error(error);
   }
