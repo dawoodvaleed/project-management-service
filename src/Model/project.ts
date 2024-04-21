@@ -1,26 +1,30 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
   ManyToOne,
+  PrimaryColumn,
+  JoinColumn,
 } from "typeorm";
 import { IsDate } from "class-validator";
 import { Measurement } from "./measurement";
-import { Vendor } from "./vendor";
+import { Customer } from "./customer";
 
 @Entity()
 export class Project {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
-
-  @Column({ name: "project_number" })
-  projectNumber: string;
 
   @Column()
   branch: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  region: string;
 
   @Column({ name: "nature_of_work" })
   natureOfWork: string;
@@ -34,7 +38,7 @@ export class Project {
   @Column({ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true, type: "numeric" })
   budget: number;
 
   @Column({ nullable: true })
@@ -75,8 +79,12 @@ export class Project {
   @OneToMany(() => Measurement, (measurement) => measurement.project)
   measurements: Measurement[];
 
-  @ManyToOne(() => Vendor, (vendor) => vendor.projects)
-  vendor: Vendor;
+  @Column({ name: "customer_id" })
+  customerId: number;
+
+  @ManyToOne(() => Customer, (customer) => customer.projects)
+  @JoinColumn({ name: "customer_id" })
+  customer: Customer;
 
   @CreateDateColumn({ name: "created_at" })
   @IsDate()

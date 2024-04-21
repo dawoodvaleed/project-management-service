@@ -10,7 +10,7 @@ import {
 import { Project } from "./project";
 
 @Entity()
-export class Vendor {
+export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -74,7 +74,7 @@ export class Vendor {
   @Column({ name: "is_active" })
   isActive: boolean;
 
-  @OneToMany(() => Project, (project) => project.vendor)
+  @OneToMany(() => Project, (project) => project.customer)
   projects: Project[];
 
   @CreateDateColumn({ name: "created_at" })

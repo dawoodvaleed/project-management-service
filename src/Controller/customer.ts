@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { Vendor } from "../Model";
+import { Customer } from "../Model";
 import { AppDataSource } from "../data-source";
 
-const vendorRepository = AppDataSource.getRepository(Vendor);
+const customerRepository = AppDataSource.getRepository(Customer);
 
-export const getVendors = async (req: Request, res: Response) => {
+export const getCustomers = async (req: Request, res: Response) => {
   try {
     const { offset = 0, limit = 10 } = req.query;
 
-    const vendors = await vendorRepository
+    const customers = await customerRepository
       .createQueryBuilder()
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
 
-    return res.status(200).send(vendors);
+    return res.status(200).send(customers);
   } catch (error) {
     console.error(error);
   }

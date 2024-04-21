@@ -51,8 +51,8 @@ export class Measurement {
   @Column({ name: "bank_comments", nullable: true })
   bankComments?: string;
 
-  @Column({ name: "vendor_comments", nullable: true })
-  vendorComments?: string;
+  @Column({ name: "customer_comments", nullable: true })
+  customerComments?: string;
 
   @ManyToOne(() => Project, (project) => project.measurements)
   project: Project;
