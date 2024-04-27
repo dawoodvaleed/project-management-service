@@ -6,9 +6,7 @@ import {
   OneToMany,
   ManyToOne,
   PrimaryColumn,
-  JoinColumn,
 } from "typeorm";
-import { IsDate } from "class-validator";
 import { Measurement } from "./measurement";
 import { Customer } from "./customer";
 
@@ -69,11 +67,9 @@ export class Project {
   isVerified: boolean;
 
   @Column({ name: "order_date", nullable: true })
-  @IsDate()
   orderDate: Date;
 
   @Column({ name: "completion_date", nullable: true })
-  @IsDate()
   completionDate: Date;
 
   @OneToMany(() => Measurement, (measurement) => measurement.project)
@@ -83,10 +79,8 @@ export class Project {
   customer: Customer;
 
   @CreateDateColumn({ name: "created_at" })
-  @IsDate()
   createdAt: Date;
 
   @UpdateDateColumn({ name: "updated_at" })
-  @IsDate()
   updatedAt: Date;
 }

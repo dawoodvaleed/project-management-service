@@ -3,7 +3,14 @@ import "reflect-metadata";
 import cors from "cors";
 import express from "express";
 import { AppDataSource } from "./data-source";
-import { projectRouter, userRouter, customerRouter, roleRouter } from "./Route";
+import {
+  projectRouter,
+  userRouter,
+  customerRouter,
+  roleRouter,
+  itemRouter,
+  measurementRouter,
+} from "./Route";
 
 if (!process.env.PORT) {
   console.error(`No port value`);
@@ -24,6 +31,8 @@ AppDataSource.initialize().then(() => {
   app.use("/", userRouter);
   app.use("/customer", customerRouter);
   app.use("/project", projectRouter);
+  app.use("/item", itemRouter);
+  app.use("/measurement", measurementRouter);
   app.use("/role", roleRouter);
 
   return app.listen(PORT, () => {
