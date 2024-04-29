@@ -6,11 +6,12 @@ const projectRepository = AppDataSource.getRepository(Project);
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10 } = req.query;
+    const { offset = 0, limit = 10, search = "" } = req.query;
 
     const projects = await projectRepository
       .createQueryBuilder("project")
       .leftJoinAndSelect("project.customer", "customer")
+      .where("project.id ILIKE :search", { search: `%${search}%` })
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();

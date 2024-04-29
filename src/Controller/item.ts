@@ -6,10 +6,11 @@ const itemRepository = AppDataSource.getRepository(Item);
 
 export const getItems = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10 } = req.query;
+    const { offset = 0, limit = 10, search = "" } = req.query;
 
     const items = await itemRepository
-      .createQueryBuilder()
+      .createQueryBuilder("item")
+      .where("item.id ILIKE :search", { search: `%${search}%` })
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();

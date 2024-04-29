@@ -13,7 +13,7 @@ import { Customer } from "./customer";
 @Entity()
 export class Project {
   @PrimaryColumn()
-  id: number;
+  id: string;
 
   @Column()
   branch: string;
