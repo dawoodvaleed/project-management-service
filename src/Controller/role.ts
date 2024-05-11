@@ -22,8 +22,8 @@ export const getRoles = async (req: Request, res: Response) => {
 
 export const addRole = async (req: Request, res: Response) => {
   try {
-    const { name, description, status, permissions } = req.body;
-    const data = { name, description, status, permissions };
+    const { id, name, description, status, permissions } = req.body;
+    const data = { id, name, description, status, permissions };
 
     const role = await roleRepository.save(data);
     return res.status(200).send(role);
