@@ -49,13 +49,13 @@ export class Customer {
   @Column()
   province: string;
 
-  @Column({ name: "ra_service_tax" })
+  @Column({ name: "ra_service_tax", type: "numeric" })
   raServiceTax: number;
 
-  @Column({ name: "bank_hold_tax" })
+  @Column({ name: "bank_hold_tax", type: "numeric" })
   bankHoldTax: number;
 
-  @Column({ name: "income_tax" })
+  @Column({ name: "income_tax", type: "numeric" })
   incomeTax: number;
 
   @Column()
@@ -64,7 +64,7 @@ export class Customer {
   @Column()
   city: string;
 
-  @Column({ name: "short_bill_generation_limit" })
+  @Column({ name: "short_bill_generation_limit", type: "numeric" })
   shortBillGenerationLimit: number;
 
   @Column({ name: "is_active" })

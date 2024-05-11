@@ -18,28 +18,22 @@ export class Measurement {
   @Column()
   date: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "numeric" })
   length?: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "numeric" })
   height?: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "numeric" })
   breadth?: number;
 
-  @Column({ name: "number_of_items", nullable: true })
+  @Column({ name: "number_of_items", nullable: true, type: "numeric" })
   numberOfItems?: number;
 
-  @Column()
-  quantity: number;
-
-  @Column()
+  @Column({ type: "numeric" })
   rate: number;
 
-  @Column({ name: "total_amount" })
-  totalAmount: number;
-
-  @Column({ name: "progress_percentage", default: 0 })
+  @Column({ name: "progress_percentage", default: 0, type: "numeric" })
   progressPercentage: number;
 
   @Column({ nullable: true })

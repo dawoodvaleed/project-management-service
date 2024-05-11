@@ -25,12 +25,35 @@ export const getMeasurements = async (req: Request, res: Response) => {
 
 export const addMeasurement = async (req: Request, res: Response) => {
   try {
-    const { date, description, itemId, projectId } = req.body;
+    const {
+      date,
+      description,
+      itemId,
+      projectId,
+      length,
+      height,
+      breadth,
+      numberOfItems,
+      location,
+      rate,
+      progressPercentage,
+      bankComments,
+    } = req.body;
+    console.log(req.body);
+
     const data = {
       date,
       description,
       project: { id: projectId },
       item: { id: itemId },
+      length: length || null,
+      height: height || null,
+      breadth: breadth || null,
+      numberOfItems,
+      location,
+      rate,
+      progressPercentage,
+      bankComments,
     };
 
     const measurement = await measurementRepository.save(data);

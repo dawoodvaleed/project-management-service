@@ -42,19 +42,19 @@ export class Project {
   @Column({ nullable: true })
   department: string;
 
-  @Column({ name: "internal_area", nullable: true })
+  @Column({ name: "internal_area", nullable: true, type: "numeric" })
   internalArea: number;
 
-  @Column({ name: "external_area", nullable: true })
+  @Column({ name: "external_area", nullable: true, type: "numeric" })
   externalArea: number;
 
-  @Column({ name: "future_area", nullable: true })
+  @Column({ name: "future_area", nullable: true, type: "numeric" })
   futureArea: number;
 
-  @Column({ name: "elevation_area", nullable: true })
+  @Column({ name: "elevation_area", nullable: true, type: "numeric" })
   elevationArea: number;
 
-  @Column({ name: "construction_area", nullable: true })
+  @Column({ name: "construction_area", nullable: true, type: "numeric" })
   constructionArea: number;
 
   @Column()
