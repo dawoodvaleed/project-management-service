@@ -11,10 +11,11 @@ const jwtSpecialString = process.env.JWT_SPECIAL_STRING as string;
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, roleId } = req.body;
     const data = {
       email,
       password: await bcrypt.hash(password, 10),
+      role: { id: roleId },
     };
 
     const user = await userRepository.save(data);
