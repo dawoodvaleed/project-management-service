@@ -11,7 +11,8 @@ const jwtSpecialString = process.env.JWT_SPECIAL_STRING as string;
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { email, password, username, address, contactNumber, roleId } = req.body;
+    const { email, password, username, address, contactNumber, roleId } =
+      req.body;
     const data = {
       email,
       password: await bcrypt.hash(password, 10),
@@ -81,6 +82,25 @@ export const getUsers = async (req: Request, res: Response) => {
       .getManyAndCount();
 
     return res.status(200).send(roles);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (id) {
+      const response = await userRepository.delete(id as string);
+      if (response.affected) {
+        return res.status(200).send('User deleted');
+      } else {
+        return res.status(400).send("Could not delete user");
+      }
+    } else {
+      res.status(404).send("User not found");
+    }
   } catch (error) {
     console.error(error);
   }
