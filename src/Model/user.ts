@@ -17,8 +17,17 @@ export class User {
   @Column()
   email: string;
 
+  @Column()
+  username: string;
+
   @Column({ select: false })
   password: string;
+
+  @Column({ nullable: true })
+  contactNumber: string;
+
+  @Column({ nullable: true })
+  address: string;
 
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
