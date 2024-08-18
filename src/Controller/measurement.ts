@@ -62,3 +62,22 @@ export const addMeasurement = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const deleteMeasurement = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (id) {
+      const response = await measurementRepository.delete(id as string);
+      if (response.affected) {
+        return res.status(200).send('Measurement deleted');
+      } else {
+        return res.status(400).send("Could not delete measurement");
+      }
+    } else {
+      res.status(404).send("Measurement not found");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
