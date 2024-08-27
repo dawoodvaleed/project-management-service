@@ -6,13 +6,21 @@ const measurementRepository = AppDataSource.getRepository(Measurement);
 
 export const getMeasurements = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10 } = req.query;
+    const { offset = 0, limit = 10, projectId } = req.query;
 
-    const measurements = await measurementRepository
+    let measurements: any = measurementRepository
       .createQueryBuilder("measurement")
       .leftJoinAndSelect("measurement.project", "project")
       .leftJoinAndSelect("project.customer", "customer")
-      .leftJoinAndSelect("measurement.item", "item")
+      .leftJoinAndSelect("measurement.item", "item");
+
+    if (projectId) {
+      measurements = measurements.where("project.id = :projectId", {
+        projectId,
+      });
+    }
+
+    measurements = await measurements
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
@@ -70,7 +78,7 @@ export const deleteMeasurement = async (req: Request, res: Response) => {
     if (id) {
       const response = await measurementRepository.delete(id as string);
       if (response.affected) {
-        return res.status(200).send('Measurement deleted');
+        return res.status(200).send("Measurement deleted");
       } else {
         return res.status(400).send("Could not delete measurement");
       }
