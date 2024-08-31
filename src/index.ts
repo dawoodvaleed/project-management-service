@@ -22,7 +22,7 @@ AppDataSource.initialize().then(() => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cors({ origin: "https://project-management-zsho.onrender.com" }));
+  app.use(cors({ origin: ["https://project-management-zsho.onrender.com", "http://localhost:3000"] }));
 
   app.get("/", (_, res) => {
     return res.json("Established connection!");
