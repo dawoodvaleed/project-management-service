@@ -29,7 +29,7 @@ export const getProject = async (req: Request, res: Response) => {
     if (id) {
       const project = await projectRepository.findOne({
         where: { id },
-        relations: ["measurements"],
+        relations: ["measurements", "measurements.item"],
       });
       if (project) {
         return res.status(200).send(project);
