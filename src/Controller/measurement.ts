@@ -47,7 +47,6 @@ export const addMeasurement = async (req: Request, res: Response) => {
       progressPercentage,
       bankComments,
     } = req.body;
-    console.log(req.body);
 
     const data = {
       date,
@@ -80,10 +79,54 @@ export const deleteMeasurement = async (req: Request, res: Response) => {
       if (response.affected) {
         return res.status(200).send("Measurement deleted");
       } else {
-        return res.status(400).send("Could not delete measurement");
+        return res.status(404).send("Measurement does not exist");
       }
     } else {
-      res.status(404).send("Measurement not found");
+      res.status(500).send("Failed to delete measurement");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateMeasurement = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const {
+      date,
+      description,
+      length,
+      height,
+      breadth,
+      numberOfItems,
+      location,
+      rate,
+      progressPercentage,
+      bankComments,
+    } = req.body;
+
+    const data = {
+      date,
+      description,
+      length,
+      height,
+      breadth,
+      numberOfItems,
+      location,
+      rate,
+      progressPercentage,
+      bankComments,
+    };
+
+    if (id) {
+      const response = await measurementRepository.update(id, data);
+      if (response) {
+        return res.status(200).send("Measurement updated");
+      } else {
+        return res.status(404).send("Measurement does not exist");
+      }
+    } else {
+      res.status(500).send("Failed to update measurement");
     }
   } catch (error) {
     console.error(error);
