@@ -22,6 +22,28 @@ export const getProjects = async (req: Request, res: Response) => {
   }
 };
 
+export const getProject = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (id) {
+      const project = await projectRepository.findOne({
+        where: { id },
+        relations: ["measurements"],
+      });
+      if (project) {
+        return res.status(200).send(project);
+      } else {
+        return res.status(404).send("Project does not exist");
+      }
+    } else {
+      res.status(500).send("Failed to find Project");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const addProject = async (req: Request, res: Response) => {
   try {
     const {

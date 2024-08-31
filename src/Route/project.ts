@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProject, getProjects } from "../Controller";
+import { addProject, getProject, getProjects } from "../Controller";
 // import { validateToken } from "../Middleware";
 
 export const projectRouter = Router();
@@ -11,3 +11,4 @@ export const projectRouter = Router();
 
 projectRouter.get("/", getProjects);
 projectRouter.post("/", addProject);
+projectRouter.get("/:id", getProject);
