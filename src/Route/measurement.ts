@@ -11,5 +11,5 @@ export const measurementRouter = Router();
 
 measurementRouter.get("/", validateToken, getMeasurements);
 measurementRouter.post("/", validateToken, addMeasurement);
-measurementRouter.patch("/:id", validateToken, updateMeasurement);
+measurementRouter.put("/:id", validateToken, updateMeasurement);
 measurementRouter.delete("/:id", validateToken, deleteMeasurement);

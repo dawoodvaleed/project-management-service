@@ -31,3 +31,25 @@ export const addRole = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const updateRole = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, description, status, permissions } = req.body;
+
+    const data = { name, description, status, permissions };
+
+    if (id) {
+      const response = await roleRepository.update(id, data);
+      if (response) {
+        return res.status(200).send("Role updated");
+      } else {
+        return res.status(404).send("Role does not exist");
+      }
+    } else {
+      res.status(500).send("Failed to update role");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
