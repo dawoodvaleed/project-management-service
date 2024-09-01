@@ -20,10 +20,10 @@ export class Role {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ default: true })
   status: boolean;
 
-  @Column()
+  @Column({ default: "" })
   permissions: string;
 
   @OneToMany(() => User, (user) => user.role)
