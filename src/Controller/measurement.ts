@@ -102,6 +102,7 @@ export const updateMeasurement = async (req: Request, res: Response) => {
       location,
       rate,
       progressPercentage,
+      customerComments,
       bankComments,
     } = req.body;
 
@@ -115,6 +116,7 @@ export const updateMeasurement = async (req: Request, res: Response) => {
       location,
       rate,
       progressPercentage,
+      customerComments,
       bankComments,
     };
 
