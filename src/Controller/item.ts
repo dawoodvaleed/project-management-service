@@ -20,3 +20,32 @@ export const getItems = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const addItem = async (req: Request, res: Response) => {
+  try {
+    const {
+      id,
+      work,
+      unitOfMeasurement,
+      name,
+      materialPercentage,
+      price,
+      description,
+    } = req.body;
+
+    const data = {
+      id,
+      work,
+      unitOfMeasurement,
+      name,
+      materialPercentage,
+      price,
+      description,
+    };
+
+    const item = await itemRepository.save(data);
+    return res.status(200).send(item);
+  } catch (error) {
+    console.error(error);
+  }
+};
