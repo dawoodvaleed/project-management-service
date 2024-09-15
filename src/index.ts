@@ -22,11 +22,8 @@ AppDataSource.initialize().then(() => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(
-    cors({
-      origin: ["*"],
-    })
-  );
+  app.use(cors());
+  app.options("*", cors());
 
   app.get("/", (_, res) => {
     return res.json("Established connection!");
