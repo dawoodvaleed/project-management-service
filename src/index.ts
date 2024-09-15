@@ -24,10 +24,7 @@ AppDataSource.initialize().then(() => {
   app.use(express.urlencoded({ extended: true }));
   app.use(
     cors({
-      origin: [
-        "https://project-management-zsho.onrender.com",
-        "http://localhost:3000",
-      ],
+      origin: ["*"],
     })
   );
 
