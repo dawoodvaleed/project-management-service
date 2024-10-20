@@ -4,3 +4,4 @@ export * from "./project";
 export * from "./role";
 export * from "./item";
 export * from "./measurement";
+export * from "./quotation";

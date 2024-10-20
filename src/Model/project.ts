@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { Measurement } from "./measurement";
 import { Customer } from "./customer";
+import { Quotation } from "./quotation";
 
 @Entity()
 export class Project {
@@ -74,6 +75,9 @@ export class Project {
 
   @OneToMany(() => Measurement, (measurement) => measurement.project)
   measurements: Measurement[];
+
+  @OneToMany(() => Quotation, (quotation) => quotation.project)
+  quotations: Quotation[];
 
   @ManyToOne(() => Customer, (customer) => customer.projects)
   customer: Customer;

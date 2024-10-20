@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { Measurement } from "./measurement";
+import { Quotation } from "./quotation";
 
 @Entity()
 export class Item {
@@ -33,6 +34,9 @@ export class Item {
 
   @OneToMany(() => Measurement, (measurement) => measurement.item)
   measurements: Measurement[];
+
+  @OneToMany(() => Quotation, (quotation) => quotation.item)
+  quotations: Quotation[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;

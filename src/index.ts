@@ -11,6 +11,7 @@ import {
   itemRouter,
   measurementRouter,
 } from "./Route";
+import { quotationRouter } from "./Route/quotation";
 
 if (!process.env.PORT) {
   console.error(`No port value`);
@@ -35,6 +36,7 @@ AppDataSource.initialize().then(() => {
   app.use("/item", itemRouter);
   app.use("/measurement", measurementRouter);
   app.use("/role", roleRouter);
+  app.use("/quotation", quotationRouter);
 
   return app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
