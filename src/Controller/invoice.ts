@@ -64,3 +64,21 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const getInvoices = async (req: Request, res: Response) => {
+  try {
+    const { offset = 0, limit = 10 } = req.query;
+
+    const invoices = await invoiceRepository
+      .createQueryBuilder("invoice")
+      .leftJoinAndSelect("invoice.project", "project")
+      .leftJoinAndSelect("project.customer", "customer")
+      .offset(Number(offset))
+      .limit(Number(limit))
+      .getManyAndCount();
+
+    return res.status(200).send(invoices);
+  } catch (error) {
+    console.error(error);
+  }
+};

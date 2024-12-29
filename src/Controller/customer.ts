@@ -8,14 +8,9 @@ export const getCustomers = async (req: Request, res: Response) => {
   try {
     const { offset = 0, limit = 10, search = "" } = req.query;
 
-    const projects = await customerRepository
-        .createQueryBuilder()
-        .where("name ILIKE :search", { search: `%${search}%` })
-        .offset(Number(offset))
-        .limit(Number(limit))
-        .getManyAndCount();
     const customers = await customerRepository
       .createQueryBuilder()
+      .where("name ILIKE :search", { search: `%${search}%` })
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
