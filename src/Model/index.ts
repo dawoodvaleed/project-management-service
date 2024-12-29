@@ -5,3 +5,4 @@ export * from "./measurement";
 export * from "./project";
 export * from "./role";
 export * from "./quotation";
+export * from "./invoice";

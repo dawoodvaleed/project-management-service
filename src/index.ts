@@ -10,8 +10,9 @@ import {
   roleRouter,
   itemRouter,
   measurementRouter,
+  quotationRouter,
+  invoiceRouter
 } from "./Route";
-import { quotationRouter } from "./Route/quotation";
 
 if (!process.env.PORT) {
   console.error(`No port value`);
@@ -21,6 +22,7 @@ const PORT = process.env.PORT;
 
 AppDataSource.initialize().then(() => {
   const app = express();
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
@@ -37,6 +39,7 @@ AppDataSource.initialize().then(() => {
   app.use("/measurement", measurementRouter);
   app.use("/role", roleRouter);
   app.use("/quotation", quotationRouter);
+  app.use("/invoice", invoiceRouter);
 
   return app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

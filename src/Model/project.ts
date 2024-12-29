@@ -10,6 +10,7 @@ import {
 import { Measurement } from "./measurement";
 import { Customer } from "./customer";
 import { Quotation } from "./quotation";
+import { Invoice } from "./invoice";
 
 @Entity()
 export class Project {
@@ -78,6 +79,9 @@ export class Project {
 
   @OneToMany(() => Quotation, (quotation) => quotation.project)
   quotations: Quotation[];
+
+  @OneToMany(() => Invoice, (invoice) => invoice.project)
+  invoices: Invoice[];
 
   @ManyToOne(() => Customer, (customer) => customer.projects)
   customer: Customer;
