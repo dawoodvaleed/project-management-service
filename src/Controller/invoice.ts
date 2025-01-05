@@ -5,21 +5,30 @@ import { AppDataSource } from "../data-source";
 const invoiceRepository = AppDataSource.getRepository(Invoice);
 const projectRepository = AppDataSource.getRepository(Project);
 
+const paymentTypeToPercentage = {
+  "Advance": "advancePercentage",
+  "First Running": "firstRunningPercentage",
+  "Second Running": "secondRunningPercentage",
+}
+
 export const addInvoice = async (req: Request, res: Response) => {
   try {
     const {
       projectId,
       paymentType,
-      percentage,
     } = req.body;
 
     const project = await projectRepository.findOne({
       where: { id: projectId },
-      relations: ["invoices"],
+      relations: ["invoices", "customer"],
     });
 
     if (!project) {
       return res.status(404).send("Can not create Invoice because Project does not exist");
+    }
+    const percentage = Number(project.customer[paymentTypeToPercentage[paymentType as keyof typeof paymentTypeToPercentage] as keyof typeof project.customer]);
+    if (!percentage) {
+      return res.status(400).send("Invalid Payment Type");
     }
     const requestedAmount = project.budget * (percentage / 100);
     const paidAmount = project.invoices.reduce((acc, invoice) => acc + invoice.requestedAmount, 0);

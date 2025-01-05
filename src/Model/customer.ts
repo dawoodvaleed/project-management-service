@@ -70,6 +70,15 @@ export class Customer {
   @Column({ name: "is_active" })
   isActive: boolean;
 
+  @Column({ type: "numeric", default: 25 })
+  advancePercentage: boolean;
+
+  @Column({ type: "numeric", default: 25 })
+  firstRunningPercentage: boolean;
+
+  @Column({ type: "numeric", default: 25 })
+  secondRunningPercentage: boolean;
+
   @OneToMany(() => Project, (project) => project.customer)
   projects: Project[];
 
