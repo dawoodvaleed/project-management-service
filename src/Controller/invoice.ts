@@ -68,6 +68,7 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
     const invoiceableProjects = await projectRepository
       .createQueryBuilder("project")
       .leftJoinAndSelect("project.invoices", "invoices")
+      .leftJoinAndSelect("project.customer", "customer")
       .where("project.customerId = :customerId", { customerId })
       .andWhere("project.year = :year", { year })
       .andWhere(qb => {
