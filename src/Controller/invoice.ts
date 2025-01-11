@@ -58,12 +58,43 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
       return res.status(400).send("Missing required parameters");
     }
 
+    const shouldBePresent = {
+      "Advance": [],
+      "First Running": ["Advance"],
+      "Second Running": ["Advance", "First Running"],
+    }
+    const shouldBePresentPaymentTypes = shouldBePresent[paymentType as keyof typeof shouldBePresent];
+
     const invoiceableProjects = await projectRepository
       .createQueryBuilder("project")
       .leftJoinAndSelect("project.invoices", "invoices")
       .where("project.customerId = :customerId", { customerId })
       .andWhere("project.year = :year", { year })
-      .andWhere("(invoices.id IS NULL OR invoices.paymentType != :paymentType)", { paymentType })
+      .andWhere(qb => {
+        const excludePaymentTypesSubQuery = qb
+          .subQuery()
+          .select("1")
+          .from(Invoice, "subInvoice")
+          .where("subInvoice.projectId = project.id")
+          .andWhere("subInvoice.paymentType = :paymentType", { paymentType })
+          .getQuery();
+        return `NOT EXISTS ${excludePaymentTypesSubQuery}`;
+      })
+      .andWhere(qb => {
+        if (shouldBePresentPaymentTypes.length > 0) {
+          const checkPaidInvoicesSubQuery = qb
+            .subQuery()
+            .select("1")
+            .from(Invoice, "paidInvoice")
+            .where("paidInvoice.projectId = project.id")
+            .andWhere("paidInvoice.paymentPost = true")
+            .andWhere("paidInvoice.paymentType IN (:...shouldBePresentPaymentTypes)", { shouldBePresentPaymentTypes })
+            .getQuery();
+          return `EXISTS ${checkPaidInvoicesSubQuery}`;
+        } else {
+          return `1 = 1`;
+        }
+      })
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
