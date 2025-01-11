@@ -85,17 +85,18 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
         if (shouldBePresentPaymentTypes.length > 0) {
           const checkPaidInvoicesSubQuery = qb
             .subQuery()
-            .select("1")
+            .select("COUNT(DISTINCT paidInvoice.paymentType)")
             .from(Invoice, "paidInvoice")
             .where("paidInvoice.projectId = project.id")
             .andWhere("paidInvoice.paymentPost = true")
             .andWhere("paidInvoice.paymentType IN (:...shouldBePresentPaymentTypes)", { shouldBePresentPaymentTypes })
             .getQuery();
-          return `EXISTS ${checkPaidInvoicesSubQuery}`;
+          return `(${checkPaidInvoicesSubQuery}) = :paymentTypesCount`;
         } else {
           return `1 = 1`;
         }
       })
+      .setParameter("paymentTypesCount", shouldBePresentPaymentTypes.length)
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
