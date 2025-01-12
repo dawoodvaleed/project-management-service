@@ -124,3 +124,25 @@ export const getInvoices = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const postPayment = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { iom, bankPaymentReference } = req.body;
+
+    const data = { paymentPost: true, iom, bankPaymentReference };
+
+    if (id) {
+      const response = await invoiceRepository.update(id, data);
+      if (response) {
+        return res.status(200).send(`Payment Posted for Invoice ID: ${id}`);
+      } else {
+        return res.status(404).send("Invoice does not exist");
+      }
+    } else {
+      res.status(500).send("Failed to post payment");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
