@@ -132,7 +132,7 @@ export const postPayment = async (req: Request, res: Response) => {
 
     const data = { paymentPost: true, iom, bankPaymentReference };
 
-    if (id) {
+    if (id && iom && bankPaymentReference) {
       const response = await invoiceRepository.update(id, data);
       if (response) {
         return res.status(200).send(`Payment Posted for Invoice ID: ${id}`);
