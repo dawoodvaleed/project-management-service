@@ -50,6 +50,28 @@ export const addInvoice = async (req: Request, res: Response) => {
   }
 };
 
+export const getInvoice = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (id) {
+      const invoice = await invoiceRepository.findOne({
+        where: { id: Number(id) },
+        relations: ["project", "project.customer"],
+      });
+      if (invoice) {
+        return res.status(200).send(invoice);
+      } else {
+        return res.status(404).send("Invoice does not exist");
+      }
+    } else {
+      res.status(500).send("Failed to find Invoice");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
   try {
     const { offset = 0, limit = 10, paymentType, year, customerId } = req.query;
