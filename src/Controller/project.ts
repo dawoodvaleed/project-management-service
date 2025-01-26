@@ -6,12 +6,13 @@ const projectRepository = AppDataSource.getRepository(Project);
 
 export const getProjects = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10, search = "" } = req.query;
+    const { offset = 0, limit = 10, search = "", type = "NEW" } = req.query;
 
     const projects = await projectRepository
       .createQueryBuilder("project")
       .leftJoinAndSelect("project.customer", "customer")
       .where("project.id ILIKE :search", { search: `%${search}%` })
+      .andWhere("project.type = :type", { type })
       .offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
@@ -68,6 +69,8 @@ export const addProject = async (req: Request, res: Response) => {
       orderDate,
       completionDate,
       customerId,
+      type,
+      bankRef,
     } = req.body;
     const data = {
       id,
@@ -90,6 +93,8 @@ export const addProject = async (req: Request, res: Response) => {
       isVerified,
       orderDate,
       completionDate,
+      type,
+      bankRef,
       customer: { id: customerId },
     };
 
@@ -105,7 +110,7 @@ export const getProjectProgressDetails = async (
   res: Response
 ) => {
   try {
-    const { projectId = "", customerId = "", natureOfWork = "" } = req.query;
+    const { projectId = "", customerId = "", natureOfWork = "", type = 'NEW' } = req.query;
 
     const projects = await projectRepository
       .createQueryBuilder("project")
@@ -113,11 +118,12 @@ export const getProjectProgressDetails = async (
       .leftJoinAndSelect("project.measurements", "measurements")
       .leftJoinAndSelect("measurements.item", "item")
       .where(
-        "project.id ILIKE :projectId AND customer.id ILIKE :customerId AND project.natureOfWork ILIKE :natureOfWork",
+        "project.id ILIKE :projectId AND customer.id ILIKE :customerId AND project.natureOfWork ILIKE :natureOfWork AND project.type = :type",
         {
           projectId: `%${projectId}%`,
           customerId: `%${customerId}%`,
           natureOfWork: `%${natureOfWork}%`,
+          type
         }
       )
       .getMany();

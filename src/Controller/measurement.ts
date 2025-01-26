@@ -6,16 +6,17 @@ const measurementRepository = AppDataSource.getRepository(Measurement);
 
 export const getMeasurements = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10, projectId } = req.query;
+    const { offset = 0, limit = 10, projectId, projectType = 'NEW' } = req.query;
 
     let measurements: any = measurementRepository
       .createQueryBuilder("measurement")
       .leftJoinAndSelect("measurement.project", "project")
       .leftJoinAndSelect("project.customer", "customer")
-      .leftJoinAndSelect("measurement.item", "item");
+      .leftJoinAndSelect("measurement.item", "item")
+      .where("project.type = :projectType", { projectType });
 
     if (projectId) {
-      measurements = measurements.where("project.id = :projectId", {
+      measurements = measurements.andWhere("project.id = :projectId", {
         projectId,
       });
     }

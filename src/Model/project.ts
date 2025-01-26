@@ -29,6 +29,12 @@ export class Project {
   @Column({ name: "nature_of_work" })
   natureOfWork: string;
 
+  @Column({ default: "NEW" })
+  type: string;
+
+  @Column({ nullable: true })
+  bankRef: string;
+
   @Column()
   year: string;
 
