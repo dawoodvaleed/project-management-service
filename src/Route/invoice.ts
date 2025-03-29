@@ -5,7 +5,7 @@ import { validateToken } from "../Middleware";
 export const invoiceRouter = Router();
 
 invoiceRouter.get("/", validateToken, getInvoices);
-invoiceRouter.get("/:id", validateToken, getInvoice);
 invoiceRouter.get("/invoiceable-projects", validateToken, fetchInvoiceableProjects);
+invoiceRouter.get("/:id", validateToken, getInvoice);
 invoiceRouter.post("/", validateToken, addInvoice);
 invoiceRouter.put("/post-payment/:id", validateToken, postPayment);
