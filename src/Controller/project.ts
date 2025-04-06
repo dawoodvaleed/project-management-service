@@ -110,7 +110,7 @@ export const getProjectProgressDetails = async (
   res: Response
 ) => {
   try {
-    const { projectId = "", customerId = "", natureOfWork = "", type = 'NEW' } = req.query;
+    const { projectId = "", customerId = "", natureOfWork = "", type = "NEW" } = req.query;
 
     const projects = await projectRepository
       .createQueryBuilder("project")

@@ -101,6 +101,7 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
       .leftJoinAndSelect("project.customer", "customer")
       .where("project.customerId = :customerId", { customerId })
       .andWhere("project.year = :year", { year })
+      .andWhere("project.type = :type", { type: "NEW" })
       .andWhere(qb => {
         const excludePaymentTypesSubQuery = qb
           .subQuery()
