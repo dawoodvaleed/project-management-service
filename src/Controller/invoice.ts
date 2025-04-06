@@ -26,7 +26,15 @@ export const addInvoice = async (req: Request, res: Response) => {
     if (!project) {
       return res.status(404).send("Can not create Invoice because Project does not exist");
     }
-    const percentage = Number(project.customer[paymentTypeToPercentage[paymentType as keyof typeof paymentTypeToPercentage] as keyof typeof project.customer]);
+
+    let percentage = 0;
+
+    percentage = Number(project.customer[paymentTypeToPercentage[paymentType as keyof typeof paymentTypeToPercentage] as keyof typeof project.customer]);
+
+    if (paymentType === "Short Bill") {
+      percentage = 100;
+    }
+
     if (!percentage) {
       return res.status(400).send("Invalid Payment Type");
     }
@@ -144,13 +152,13 @@ export const fetchShortBillProjects = async (req: Request, res: Response) => {
       .where("project.customerId = :customerId", { customerId })
       .andWhere("project.type = :type", { type: "MAINTENANCE" })
       .andWhere(qb => {
-      const excludeProjectsWithInvoicesSubQuery = qb
-        .subQuery()
-        .select("1")
-        .from(Invoice, "subInvoice")
-        .where("subInvoice.projectId = project.id")
-        .getQuery();
-      return `NOT EXISTS ${excludeProjectsWithInvoicesSubQuery}`;
+        const excludeProjectsWithInvoicesSubQuery = qb
+          .subQuery()
+          .select("1")
+          .from(Invoice, "subInvoice")
+          .where("subInvoice.projectId = project.id")
+          .getQuery();
+        return `NOT EXISTS ${excludeProjectsWithInvoicesSubQuery}`;
       })
       .offset(Number(offset))
       .limit(Number(limit))
