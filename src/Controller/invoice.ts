@@ -129,6 +129,39 @@ export const fetchInvoiceableProjects = async (req: Request, res: Response) => {
   }
 };
 
+export const fetchShortBillProjects = async (req: Request, res: Response) => {
+  try {
+    const { offset = 0, limit = 10, customerId } = req.query;
+
+    if (!customerId) {
+      return res.status(400).send("Missing required parameters");
+    }
+
+    const shortBillableProjects = await projectRepository
+      .createQueryBuilder("project")
+      .leftJoinAndSelect("project.invoices", "invoices")
+      .leftJoinAndSelect("project.customer", "customer")
+      .where("project.customerId = :customerId", { customerId })
+      .andWhere("project.type = :type", { type: "MAINTENANCE" })
+      .andWhere(qb => {
+      const excludeProjectsWithInvoicesSubQuery = qb
+        .subQuery()
+        .select("1")
+        .from(Invoice, "subInvoice")
+        .where("subInvoice.projectId = project.id")
+        .getQuery();
+      return `NOT EXISTS ${excludeProjectsWithInvoicesSubQuery}`;
+      })
+      .offset(Number(offset))
+      .limit(Number(limit))
+      .getManyAndCount();
+
+    return res.status(200).send(shortBillableProjects);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getInvoices = async (req: Request, res: Response) => {
   try {
     const { offset = 0, limit = 10 } = req.query;
