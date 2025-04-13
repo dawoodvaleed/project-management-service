@@ -173,17 +173,22 @@ export const fetchShortBillProjects = async (req: Request, res: Response) => {
 
 export const getInvoices = async (req: Request, res: Response) => {
   try {
-    const { offset = 0, limit = 10 } = req.query;
+    const { offset = 0, limit = 10, paymentType = null } = req.query;
 
-    const invoices = await invoiceRepository
+    const invoices = invoiceRepository
       .createQueryBuilder("invoice")
       .leftJoinAndSelect("invoice.project", "project")
-      .leftJoinAndSelect("project.customer", "customer")
-      .offset(Number(offset))
+      .leftJoinAndSelect("project.customer", "customer");
+
+    if (paymentType) {
+      invoices.andWhere("invoice.paymentType = :paymentType", { paymentType });
+    }
+
+    const fetchedInvoices = await invoices.offset(Number(offset))
       .limit(Number(limit))
       .getManyAndCount();
 
-    return res.status(200).send(invoices);
+    return res.status(200).send(fetchedInvoices);
   } catch (error) {
     console.error(error);
   }
