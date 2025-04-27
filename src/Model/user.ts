@@ -32,11 +32,11 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   @IsDate()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   @IsDate()
   updatedAt: Date;
 }

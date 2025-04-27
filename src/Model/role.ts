@@ -29,11 +29,11 @@ export class Role {
   @OneToMany(() => User, (user) => user.role)
   users: User[];
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   @IsDate()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   @IsDate()
   updatedAt: Date;
 }

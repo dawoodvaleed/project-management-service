@@ -17,17 +17,20 @@ export class Item {
   @Column()
   work: string;
 
-  @Column({ name: "unit_of_measurement" })
+  @Column()
   unitOfMeasurement: string;
 
-  @Column({ name: "name", nullable: true })
+  @Column({ nullable: true })
   name: string;
 
-  @Column({ name: "material_percentage", nullable: true })
-  materialPercentage: string;
+  @Column({ type: "numeric" })
+  materialPercentage: number;
 
-  @Column()
-  price: string;
+  @Column({ type: "numeric" })
+  servicePercentage: number;
+
+  @Column({ default: 0, type: "numeric" })
+  price: number;
 
   @Column({ nullable: true })
   description?: string;
@@ -38,9 +41,9 @@ export class Item {
   @OneToMany(() => Quotation, (quotation) => quotation.item)
   quotations: Quotation[];
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

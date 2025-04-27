@@ -16,13 +16,13 @@ export class Customer {
   @Column()
   name: string;
 
-  @Column({ name: "bank_account_title" })
+  @Column()
   bankAccountTitle: string;
 
-  @Column({ name: "bank_account_number" })
+  @Column()
   bankAccountNumber: string;
 
-  @Column({ name: "contact_person" })
+  @Column()
   contactPerson: string;
 
   @Column({ nullable: true })
@@ -49,13 +49,13 @@ export class Customer {
   @Column()
   province: string;
 
-  @Column({ name: "ra_service_tax", type: "numeric" })
+  @Column({ type: "numeric" })
   raServiceTax: number;
 
-  @Column({ name: "bank_hold_tax", type: "numeric" })
+  @Column({ type: "numeric" })
   bankHoldTax: number;
 
-  @Column({ name: "income_tax", type: "numeric" })
+  @Column({ type: "numeric" })
   incomeTax: number;
 
   @Column()
@@ -64,27 +64,27 @@ export class Customer {
   @Column()
   city: string;
 
-  @Column({ name: "short_bill_generation_limit", type: "numeric" })
+  @Column({ type: "numeric" })
   shortBillGenerationLimit: number;
 
-  @Column({ name: "is_active" })
+  @Column()
   isActive: boolean;
 
   @Column({ type: "numeric", default: 25 })
-  advancePercentage: boolean;
+  advancePercentage: number;
 
   @Column({ type: "numeric", default: 25 })
-  firstRunningPercentage: boolean;
+  firstRunningPercentage: number;
 
   @Column({ type: "numeric", default: 25 })
-  secondRunningPercentage: boolean;
+  secondRunningPercentage: number;
 
   @OneToMany(() => Project, (project) => project.customer)
   projects: Project[];
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

@@ -27,13 +27,13 @@ export class Quotation {
   @Column({ nullable: true, type: "numeric" })
   breadth?: number;
 
-  @Column({ name: "number_of_items", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   numberOfItems?: number;
 
   @Column({ type: "numeric" })
   rate: number;
 
-  @Column({ name: "progress_percentage", default: 0, type: "numeric" })
+  @Column({ default: 0, type: "numeric" })
   progressPercentage: number;
 
   @Column({ nullable: true })
@@ -42,10 +42,10 @@ export class Quotation {
   @Column({ nullable: true })
   description?: string;
 
-  @Column({ name: "bank_comments", nullable: true })
+  @Column({ nullable: true })
   bankComments?: string;
 
-  @Column({ name: "customer_comments", nullable: true })
+  @Column({ nullable: true })
   customerComments?: string;
 
   @ManyToOne(() => Project, (project) => project.quotations)
@@ -54,11 +54,11 @@ export class Quotation {
   @ManyToOne(() => Item, (item) => item.quotations)
   item: Item;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   @IsDate()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   @IsDate()
   updatedAt: Date;
 }

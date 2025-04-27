@@ -26,7 +26,7 @@ export class Project {
   @Column()
   region: string;
 
-  @Column({ name: "nature_of_work" })
+  @Column()
   natureOfWork: string;
 
   @Column({ default: "NEW" })
@@ -50,34 +50,34 @@ export class Project {
   @Column({ nullable: true })
   department: string;
 
-  @Column({ name: "internal_area", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   internalArea: number;
 
-  @Column({ name: "external_area", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   externalArea: number;
 
-  @Column({ name: "future_area", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   futureArea: number;
 
-  @Column({ name: "elevation_area", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   elevationArea: number;
 
-  @Column({ name: "construction_area", nullable: true, type: "numeric" })
+  @Column({ nullable: true, type: "numeric" })
   constructionArea: number;
 
   @Column()
   status: string;
 
-  @Column({ name: "block_reason", nullable: true })
-  blockReaon: string;
+  @Column({ nullable: true })
+  blockReason: string;
 
-  @Column({ name: "is_verified" })
+  @Column()
   isVerified: boolean;
 
-  @Column({ name: "order_date", nullable: true })
+  @Column({ nullable: true })
   orderDate: Date;
 
-  @Column({ name: "completion_date", nullable: true })
+  @Column({ nullable: true })
   completionDate: Date;
 
   @OneToMany(() => Measurement, (measurement) => measurement.project)
@@ -92,9 +92,9 @@ export class Project {
   @ManyToOne(() => Customer, (customer) => customer.projects)
   customer: Customer;
 
-  @CreateDateColumn({ name: "created_at" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "updated_at" })
+  @UpdateDateColumn()
   updatedAt: Date;
 }
